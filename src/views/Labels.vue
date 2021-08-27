@@ -1,8 +1,7 @@
 <template>
-  <div>
-    Lables
-    <Nav/>
-  </div>
+    <Layout>
+      <p>Lables</p>
+    </Layout>
 </template>
 
 <script>
@@ -10,7 +9,3 @@ export default {
   name: "Labels",
 }
 </script>
-
-<style scoped>
-
-</style>
