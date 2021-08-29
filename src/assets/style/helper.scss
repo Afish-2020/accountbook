@@ -10,9 +10,11 @@ $color-highlight: #f00;
   }
 }
 $color-shadow: rgba(0, 0, 0, 0.25);
+/*外阴影*/
 %outerShadow {
   box-shadow: 0 0 3px $color-shadow;
 }
+/*内阴影*/
 %innerShadow {
   box-shadow: inset 0 -3px 3px -3px $color-shadow,
   inset 0 3px 3px -3px $color-shadow;

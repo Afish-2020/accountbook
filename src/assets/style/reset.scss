@@ -12,6 +12,6 @@ ul, ol{
 button, input{
   font: inherit;
 }
-:focus{
-  outline: none;
+:focus{           /*获得焦点的元素*/
+  outline: none;   /*无轮廓*/
 }
