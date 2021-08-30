@@ -7,27 +7,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Types',
-  data(){
-    return{
-      type: '-'  // '-'表示支出,'+'表示收入
+<script lang="ts">
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+
+@Component
+export default class Types extends Vue {
+  @Prop(Number) xxx: number | undefined;
+  type = '-'; // type 只能是'-'和'+'中的一个
+  selectType(type: string) {
+    if (type !== '-' && type !== '+') {
+      throw new Error('type is unknown');
     }
-  },
-  props:['xxx'],
-  mounted() {
-    console.log(this.xxx)
-  },
-  methods:{
-    selectType(type){   // type 只能是'-'和'+'中的一个
-      if(type !== '-' && type !== '+'){
-        throw new Error('type is unknown')
-      }
-      this.type = type
-    }
+    this.type = type;
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +30,7 @@ export default {
   display: flex;
   text-align: center;
   font-size: 24px;
+
   > li {
     width: 50%;
     height: 64px;
@@ -43,7 +38,8 @@ export default {
     justify-content: center;
     align-items: center;
     position: relative;
-    &.selected::after {     /*当前li被选中时*/
+
+    &.selected::after { /*当前li被选中时*/
       content: '';
       position: absolute;
       bottom: 0;
