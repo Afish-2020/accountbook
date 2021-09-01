@@ -16,7 +16,6 @@ export default {
 
 <style scoped>
 .layout-wrapper{
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   height: 100vh;  /* 设置等于屏幕高度 */
