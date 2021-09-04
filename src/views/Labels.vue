@@ -14,6 +14,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import {mixins} from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper';
 
 @Component({
   computed:{
@@ -22,19 +24,10 @@ import {Component} from 'vue-property-decorator';
     }
   }
 })
-export default class Labels extends Vue {
+export default class Labels extends mixins(TagHelper) {
   beforeCreate(){
     this.$store.commit('fetchTags')
   };
-
-  createTag() {
-    const name = window.prompt('请输入标签名：');
-    if(!name){
-      window.alert('标签名不能为空');
-    }else {
-      this.$store.commit('createTag',name)
-    }
-  }
 }
 </script>
 
