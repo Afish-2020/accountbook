@@ -4,7 +4,7 @@
     <Tabs class-prefix='interval' :value.sync="interval" :data-source="intervalList"/>
       <ol>
         <li v-for="(group,index) in groupList" :key="index">
-          <h3 class="title">{{beautify(group.title)}}</h3>
+          <h3 class="title">{{beautify(group.title)}}<span>￥{{group.total}}</span></h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">
             <span>{{tagString(item.tags)}}</span>
@@ -36,8 +36,9 @@ export default class Statistics extends Vue {
 
   get groupList() {
     if(this.recordList.length === 0){return []};
-    const newList = clone(this.recordList).sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-    const result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}]
+    const newList = clone(this.recordList).filter(i=>i.type === this.type).sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+    type Result = {title:string,total?:number,items:RecordItem[]}[]
+    const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}]
     for(let i=1;i<newList.length;i++){
       let current = newList[i]
       let last = result[result.length-1]
@@ -47,6 +48,9 @@ export default class Statistics extends Vue {
         result.push({title:dayjs(current.createdAt).format('YYYY-MM-DD'),items: [current]});
       }
     }
+    result.map(group=>{
+      group.total=group.items.reduce((sum,item)=>sum+item.amount,0)
+    })
     return result;
   };
 
