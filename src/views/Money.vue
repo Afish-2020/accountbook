@@ -26,7 +26,7 @@ export default class Money extends Vue {
     return this.$store.state.recordList;
   };
   record: RecordItem = {
-    tag: [], notes: '', type: '-', amount: 0
+    tags: [], notes: '', type: '-', amount: 0
   };
   recordTypeList=recordTypeList;
   created(){
@@ -48,7 +48,7 @@ export default class Money extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.layout-content {
+::v-deep .layout-content {
   display: flex;
   flex-direction: column-reverse;
 }

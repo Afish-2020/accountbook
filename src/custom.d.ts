@@ -1,5 +1,11 @@
+type RootState = {
+  recordList :RecordItem[],
+  tagList : Tag[],
+  currentTag?: Tag,
+};
+
 type RecordItem = {
-  tag: string[];
+  tags: Tag[];
   notes: string;
   type: string;
   amount: number;
