@@ -18,7 +18,7 @@ export default {
 .layout-wrapper{
   display: flex;
   flex-direction: column;
-  height: 100vh;  /* 设置等于屏幕高度 */
+  min-height: 100vh;  /* 设置等于屏幕高度 */
 }
 .content {
   overflow: auto;  /*可滚动*/
