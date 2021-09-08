@@ -4,6 +4,7 @@
     <Tabs :value.sync="record.type" :data-source="recordTypeList"/>
     <div class="notes">
       <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
+      <FormItem field-name="日期" type="date" placeholder="在这里输入备注" :value.sync="record.createdAt"/>
     </div>
     <Tags @update:value="record.tags=$event"/>
   </Layout>
@@ -17,6 +18,7 @@ import NumberPad from '@/components/Money/NumberPad.vue';
 import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList';
+import dayjs from 'dayjs';
 
 @Component({
   components: {Tabs, NumberPad, FormItem, Tags},
@@ -26,7 +28,7 @@ export default class Money extends Vue {
     return this.$store.state.recordList;
   };
   record: RecordItem = {
-    tags: [], notes: '', type: '-', amount: 0
+    tags: [], notes: '', type: '-', amount: 0,createdAt:new Date().toISOString()
   };
   recordTypeList=recordTypeList;
   created(){
