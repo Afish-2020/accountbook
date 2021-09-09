@@ -101,7 +101,7 @@ export default class Statistics extends Vue {
           lineStyle:{color:'#666'}
         },
         axisLabel:{
-          formatter: function (value,index) {
+          formatter: function (value:string) {
             return value.substr(5);
           }
         }
