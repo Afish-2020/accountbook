@@ -3,7 +3,7 @@
     <Tabs class-prefix='type' :value.sync="type" :data-source="recordTypeList"/>
     <Tabs class-prefix='interval' :value.sync="interval" :data-source="intervalList"/>
     <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="x" />
+      <Chart class="chart" :options="chartOptions" />
     </div>
     <ol v-if="recordList.length>0">
       <li v-for="(group,index) in groupList" :key="index">
@@ -30,6 +30,7 @@ import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
 import Chart from '@/components/Chart.vue';
+import _ from 'lodash'
 
 @Component({
   components: {Chart, Tabs}
@@ -64,20 +65,46 @@ export default class Statistics extends Vue {
     });
     return result;
   };
+  get keyValueList(){
+    let array = [];
+    const today = new Date();
+    for(let i=0;i<=29;i++){
+      const dayString = dayjs(today).subtract(i,'day').format('YYYY-MM-DD');
+      const found = _.find(this.groupList,{title:dayString});
+      array.push({key:dayString,value:found?found.total:0});
+    }
+    array.sort((a,b)=>{
+      if(a.key>b.key){
+        return 1
+      }else if(a.key===b.key){
+        return 0
+      }else {
+        return -1
+      }
+    })
+    return array;
+  };
 
-  get x(){
+  get chartOptions(){
+    // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
+    //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
+    const keys = this.keyValueList.map(r=>r.key);
+       const values = this.keyValueList.map(r=>r.value)
     return {
       xAxis: {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7','8','9','10',
-          '10', '12', '13', '14', '15', '16', '17','18','19','20',
-          '21', '23', '24', '25', '26', '27','28','29','30'],
+        data: keys,
         axisTick:{
         alignWithLabel: true
         },
         axisLine:{
           lineStyle:{color:'#666'}
         },
+        axisLabel:{
+          formatter: function (value,index) {
+            return value.substr(5);
+          }
+        }
       },
       yAxis: {
         type: 'value',
@@ -87,9 +114,7 @@ export default class Statistics extends Vue {
         symbol:'circle',
         symbolSize: 10,
         itemStyle:{borderWidth:1, color: '#666' ,borderColor:'#666'},
-        data: [150, 230, 224, 218, 135, 147, 260,150, 230,
-               224, 218, 135, 147, 260,150, 230, 224, 218,
-               135, 147, 260,150, 230, 224, 218, 135, 147,150, 230,224],
+        data: values,
         type: 'line'
       }],
       grid:{
