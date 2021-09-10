@@ -1,13 +1,13 @@
 <template>
   <div>
     <label class="FormItem">
-      <span class="name">{{ fieldName }}</span>
       <template v-if="type === 'date'">
         <input :type="type||'text'"
                        :value="x(value)" @input=onValueChanged($event.target.value)
                        :placeholder="placeholder"></template>
       <template v-else>
-        <input :type="type||'text'" :value="value" @input=onValueChanged($event.target.value)
+        <span class="name">{{ fieldName }}</span>
+        <input class="textInput" :type="type||'text'" :value="value" @input=onValueChanged($event.target.value)
                        :placeholder="placeholder">
       </template>
     </label>
@@ -42,17 +42,18 @@ export default class FormItem extends Vue {
   padding-left: 16px;
   display: flex;
   align-items: center;
-
   .name {
-    padding-right: 16px;
+    padding-left: 0px;
   }
-
+.textInput{
+  padding-left: 16px;
+  max-width: 12em;
+}
   input {
     height: 40px;
-    flex-grow: 1; /*尽量占一行*/
     background: transparent;
     border: none;
-    padding-right: 16px;
+    //padding-right: 16px;
   }
 }
 </style>

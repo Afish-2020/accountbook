@@ -3,8 +3,8 @@
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
     <Tabs :value.sync="record.type" :data-source="recordTypeList"/>
     <div class="notes">
-      <FormItem field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
-      <FormItem field-name="日期" type="date" placeholder="在这里输入备注" :value.sync="record.createdAt"/>
+      <FormItem class="formItem" field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
+      <FormItem class="formDate" field-name="日期" type="date" placeholder="在这里输入备注" :value.sync="record.createdAt"/>
     </div>
     <Tags @update:value="record.tags=$event"/>
   </Layout>
@@ -60,5 +60,11 @@ export default class Money extends Vue {
 
 .notes {
   padding: 12px 0;
+}
+.formItem{
+  float: left;
+}
+.formDate{
+  padding-right: 16px;
 }
 </style>
