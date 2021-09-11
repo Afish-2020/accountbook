@@ -2,7 +2,7 @@
   <ul class="tabs">
     <li v-for="item in dataSource" :key="item.value" class="tabs-item"
         :class="{[classPrefix+'-tabs-item']:classPrefix,'selected':item.value === value}" @click="select(item)">
-      {{ item.text }}
+      <div>{{ item.text }}</div>
     </li>
   </ul>
 </template>
@@ -26,14 +26,15 @@ export default class Tabs extends Vue {
 
 <style scoped lang="scss">
 .tabs {
-  background: #c4c4c4;
+  background:  #01C2C7;
+  color: white;
   display: flex;
   text-align: center;
   font-size: 24px;
 
   &-item {
     width: 50%;
-    height: 64px;
+    height: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,8 +47,9 @@ export default class Tabs extends Vue {
       left: 0;
       width: 100%;
       height: 4px;
-      background: #333;
+      background: #666;
     }
   }
 }
+
 </style>

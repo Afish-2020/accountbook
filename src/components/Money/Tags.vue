@@ -1,10 +1,11 @@
 <template>
   <div class="tags">
-    <div class="new">
-      <button @click="createTag">新增标签</button>
-    </div>
+<!--    <div class="new">-->
+<!--      <button @click="createTag">新增标签</button>-->
+<!--    </div>-->
     <ul class="current">
-      <li v-for="tag in tagList" :key="tag.id" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)">{{tag.name}}</li>
+      <li v-for="tag in tagList" :key="tag.id" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)"><div class="icon"><Icon :name="tag.name"/></div><span class="text">{{tag.name}}</span></li>
+      <li @click="createTag"><div class="icon" ><Icon name="add"/></div><span class="text">添加</span></li>
     </ul>
   </div>
 
@@ -39,28 +40,46 @@ export default class Tags extends mixins(TagHelper){
 
 <style lang="scss" scoped>
 .tags {
-  background:white;
-  font-size: 14px;
-  padding: 16px;
+  background: white;
+  //padding: 16px;
   flex-grow: 1;
   display: flex;
-  flex-direction: column-reverse;
+  justify-content: center;
   > .current {
     display: flex;
     flex-wrap: wrap;
+    margin: 8px 34px;
     > li {
-      $bg:#d9d9d9;
-      background: $bg;
-      $h: 24px;
-      height: $h;
-      line-height: $h;    /*使得文字居中*/
-      border-radius: $h/2;
-      padding: 0 16px;
-      margin-right: 12px;
+      font-size: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      $bg: #D9D9D9;
+      $h: 40px;
+      line-height: $h;
+      width: 20%;
       margin-top: 4px;
-      &.selected{
-        background: darken($bg,50%);
+      >.icon{
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background: $bg;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .text{
+        margin: -5px 0;
+        font-size: 10px;
+      }
+      &.selected {
         color: white;
+        .text{
+          color: black;
+        }
+        .icon{
+          background: #01C2C7;
+        }
       }
     }
   }

@@ -1,12 +1,12 @@
 <template>
   <Layout class-prefix="layout">
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"/>
-    <Tabs :value.sync="record.type" :data-source="recordTypeList"/>
     <div class="notes">
       <FormItem class="formItem" field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
       <FormItem class="formDate" field-name="日期" type="date" placeholder="在这里输入备注" :value.sync="record.createdAt"/>
     </div>
-    <Tags @update:value="record.tags=$event"/>
+    <Tags class="tags" @update:value="record.tags=$event"/>
+    <Tabs :value.sync="record.type" :data-source="recordTypeList"/>
   </Layout>
 </template>
 
@@ -33,6 +33,7 @@ export default class Money extends Vue {
   recordTypeList=recordTypeList;
   created(){
     this.$store.commit('fetchRecords');
+    this.$store.commit('fetchTags');
   };
 
   onUpdateAmount(value: string) {
@@ -59,12 +60,22 @@ export default class Money extends Vue {
 }
 
 .notes {
-  padding: 12px 0;
+  padding: 5px 0;
+  background-color: white;
+  //border: 1px solid ;
+  //box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 -3px 3px -3px  rgba(0, 0, 0, 0.25),
+  inset 0 3px 3px -3px  rgba(0, 0, 0, 0.25);
 }
+
 .formItem{
   float: left;
 }
 .formDate{
   padding-right: 16px;
+}
+.tags{
+  display: flex;
+  flex-direction:row-reverse;
 }
 </style>

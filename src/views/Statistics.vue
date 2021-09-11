@@ -221,9 +221,11 @@ return '上月'
 
 ::v-deep .type-tabs-item {
   background: white;
+  color: #08ACB5;
 
   &.selected {
-    background: #c4c4c4;
+    background: #08ACB5;
+    color: white;
 
     &::after {
       display: none;

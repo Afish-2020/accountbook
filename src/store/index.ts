@@ -58,10 +58,16 @@ const store = new Vuex.Store({
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
       if(!state.tagList||state.tagList.length===0){
-        store.commit('createTag','衣');
-        store.commit('createTag','食');
-        store.commit('createTag','住');
-        store.commit('createTag','行');
+        console.log('2');
+        store.commit('createTag','餐饮');
+        store.commit('createTag','服饰');
+        store.commit('createTag','购物');
+        store.commit('createTag','日用');
+        store.commit('createTag','交通');
+        store.commit('createTag','蔬菜');
+        store.commit('createTag','水果');
+        store.commit('createTag','住房');
+        store.commit('createTag','旅行');
       }
     },
     createTag(state,name: string) {
@@ -74,6 +80,7 @@ const store = new Vuex.Store({
       const id=createId().toString();
       state.tagList.push({id:id,name:name});
       store.commit('saveTags');
+      console.log('1')
       }
     },
     saveTags(state) {

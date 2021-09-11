@@ -3,7 +3,8 @@
     <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot></slot>
     </div>
-    <Nav/>
+    <div class="navbar"><Nav/></div>
+    <div class="blank"></div>
   </div>
 </template>
 
@@ -23,5 +24,13 @@ export default {
 .content {
   overflow: auto;  /*可滚动*/
   flex-grow: 1; /*尽量把所有的高度都给content*/
+}
+.navbar{
+  width: 100%;
+  position:fixed;bottom:0px;
+  z-index: 1010;
+}
+.blank{
+  height: 54px;
 }
 </style>

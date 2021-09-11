@@ -19,6 +19,7 @@ export class TagHelper extends Vue {
         window.alert(map[this.$store.state.createTagError.message] || '未知错误');
       }
     }
+
   }
 }
 
