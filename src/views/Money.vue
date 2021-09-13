@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout">
     <Tabs :value.sync="record.type" :data-source="recordTypeList"/>
-    <Tags class="tags" @update:value="record.tags=$event"/>
+    <Tags class="tags" @update:value="record.tag=$event"/>
     <div class="notes">
       <FormItem class="formItem" field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
       <FormItem class="formDate" field-name="日期" type="date" placeholder="在这里输入备注" :value.sync="record.createdAt"/>
@@ -28,7 +28,7 @@ export default class Money extends Vue {
     return this.$store.state.recordList;
   };
   record: RecordItem = {
-    tags: [], notes: '', type: '-', amount: 0,createdAt:dayjs().format('YYYY-MM-DD')
+    tag: [], notes: '', type: '-', amount: 0,createdAt:dayjs().format('YYYY-MM-DD')
   };
   recordTypeList=recordTypeList;
   created(){
@@ -41,7 +41,7 @@ export default class Money extends Vue {
   };
 
   saveRecord() {
-    if(!this.record.tags||this.record.tags.length===0){
+    if(!this.record.tag||this.record.tag.length===0){
       return window.alert('请选择一个标签')
     }
     this.$store.commit('createRecord',this.record);

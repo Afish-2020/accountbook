@@ -25,7 +25,6 @@ export default {
   flex-direction: column;
   max-width: 500px;
   .content {
-    border: 1px solid red;
     flex-grow: 1; /*尽量把所有的高度都给content*/
     /*height: 100%;*/
     /*overflow: auto;*/

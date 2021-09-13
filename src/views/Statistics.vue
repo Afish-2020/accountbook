@@ -11,7 +11,7 @@
           <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
-              <span>{{ tagString(item.tags) }}</span>
+              <span>{{tagString(item.tag)}}</span>
               <span class="notes">{{ item.notes }}</span>
               <span>￥{{ item.amount }}</span>
             </li>
@@ -72,8 +72,27 @@ export default class Statistics extends Vue {
     result.map(group => {
       group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
     });
+    // console.log(this.recordList);
+    // console.log(this.recordList[0].amount);
     return result;
   }
+ get x() {
+    const recordTypeList = this.recordList.filter(r=>r.type===this.type)
+   let array = [];
+   let tags=[]
+   for (let i = 0; i < recordTypeList.length; i++) {
+     const tagName = recordTypeList[i].tag[0].name;
+     if(tags && tags.indexOf(tagName)>=0){
+       continue;
+     }
+     let sum = 0;
+     const found = recordTypeList.filter(r => r.tag[0].name === tagName);
+     found.forEach(r => {sum += r.amount;})
+     tags.push(tagName)
+     array.push({value:sum,name:tagName})
+   }
+   return array
+ }
 
   get groupList() {
     if(this.interval==='day'){
@@ -162,50 +181,49 @@ export default class Statistics extends Vue {
   get chartOptions() {
     // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
     //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
-    const keys = this.keyValueList.map(r => r.key);
-    const values = this.keyValueList.map(r => r.value);
-    console.log(this.keyValueList);
     return {
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '5%',
-        left: 'center'
-      },
-      series: [
-        {
-          name: '访问来源',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            show: false,
-            position: 'center',
-            normal: {
-              position: 'inside', // 设置标签向外
-              formatter: '{b}\n{c}元 ({d}%)' // 设置标签格式
-            }
-          },
-          emphasis: {
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          top: '5%',
+          orient:'vertical',
+          x:'left',
+          // left: 'center'
+        },
+      color:['#01C2C7','#A47CFF','#FE782F','#87C66B','#BCDE53','#FFAD49','#F0E68C','#FFA07A','#BC8F8F','#D3D3D3'],
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
             label: {
-              show: true,
-              fontSize: '40',
-              fontWeight: 'bold'
-            }
-          },
-          labelLine: {
-            show: false
-          },
-          data: this.keyValueList
-        }
-      ]
-    }
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '40',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data: this.x
+          }
+        ]    }
   };
 
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.map(i => i.name).join('，');
+    // return tags.length === 0 ? '无' : tags.map(i => i.name).join('，');
+    if(tags){
+      return tags![0].name;
+    }
   }
+
 
   beautify(string: string) {
     const day = dayjs(string);
@@ -249,11 +267,12 @@ return '上月'
 
 <style lang="scss" scoped>
 .chart {
-  width: 95%;
+  width: 100%;
   margin: auto;
 
   &-wrapper {
     overflow-x: auto;
+    margin: auto;
 
     &::-webkit-scrollbar {
       display: none;
