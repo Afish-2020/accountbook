@@ -2,6 +2,7 @@
   <Layout>
     <Tabs class-prefix='type' :value.sync="type" :data-source="recordTypeList"/>
     <Tabs class-prefix='interval' :value.sync="interval" :data-source="intervalList"/>
+    <div class="groupWrapper" >
     <div class="chart-wrapper" ref="chartWrapper">
       <Chart class="chart" :options="chartOptions"/>
     </div>
@@ -18,6 +19,7 @@
         </li>
       </ol>
     <div v-else class="noResult">目前没有相关记录</div>
+    </div>
   </Layout>
 </template>
 
@@ -107,54 +109,98 @@ export default class Statistics extends Vue {
       return array;
   };
 
+  // get chartOptions() {
+  //   // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
+  //   //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
+  //   const keys = this.keyValueList.map(r => r.key);
+  //   const values = this.keyValueList.map(r => r.value);
+  //   return {
+  //     xAxis: {
+  //       type: 'category',
+  //       data: keys,
+  //       axisTick: {
+  //         alignWithLabel: true
+  //       },
+  //       axisLine: {
+  //         lineStyle: {color: '#01C2C7'}
+  //       },
+  //       axisLabel: {
+  //         formatter: function (value:string) {
+  //           const date = new Date(value);
+  //           if(value.length===10) {
+  //             const texts = [(date.getMonth() + 1), date.getDate()];
+  //             return texts.join('.');
+  //           }else{
+  //             return  (date.getMonth() + 1) + '月';
+  //           }
+  //         },
+  //       }
+  //     },
+  //     yAxis: {
+  //       type: 'value',
+  //       show: false
+  //     },
+  //     series: [{
+  //       symbol: 'emptyCircle',
+  //       symbolSize: 8,
+  //       itemStyle: {borderWidth: 0.5, color:'#01C2C7',borderColor: 'black'},
+  //       data: values,
+  //       type: 'line'
+  //     }],
+  //     grid: {
+  //       left: 0,
+  //       right: 0
+  //     },
+  //     tooltip: {
+  //       show: true, triggerOn: 'click',
+  //       formatter: '{c}',
+  //       position: 'top'
+  //     }
+  //   };
+  // };
+
   get chartOptions() {
     // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
     //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
     const keys = this.keyValueList.map(r => r.key);
     const values = this.keyValueList.map(r => r.value);
+    console.log(this.keyValueList);
     return {
-      xAxis: {
-        type: 'category',
-        data: keys,
-        axisTick: {
-          alignWithLabel: true
-        },
-        axisLine: {
-          lineStyle: {color: '#666'}
-        },
-        axisLabel: {
-          formatter: function (value:string) {
-            const date = new Date(value);
-            if(value.length===10) {
-              const texts = [(date.getMonth() + 1), date.getDate()];
-              return texts.join('-');
-            }else{
-              return  (date.getMonth() + 1) + '月';
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          name: '访问来源',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          label: {
+            show: false,
+            position: 'center',
+            normal: {
+              position: 'inside', // 设置标签向外
+              formatter: '{b}\n{c}元 ({d}%)' // 设置标签格式
             }
           },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '40',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: this.keyValueList
         }
-      },
-      yAxis: {
-        type: 'value',
-        show: false
-      },
-      series: [{
-        symbol: 'circle',
-        symbolSize: 10,
-        itemStyle: {borderWidth: 1, color: '#666', borderColor: '#666'},
-        data: values,
-        type: 'line'
-      }],
-      grid: {
-        left: 0,
-        right: 0
-      },
-      tooltip: {
-        show: true, triggerOn: 'click',
-        formatter: '{c}',
-        position: 'top'
-      }
-    };
+      ]
+    }
   };
 
   tagString(tags: Tag[]) {
@@ -203,10 +249,11 @@ return '上月'
 
 <style lang="scss" scoped>
 .chart {
-  width: 430%;
+  width: 95%;
+  margin: auto;
 
   &-wrapper {
-    overflow: auto;
+    overflow-x: auto;
 
     &::-webkit-scrollbar {
       display: none;
@@ -258,5 +305,8 @@ return '上月'
   margin-right: auto;
   margin-left: 16px;
   color: #999;
+}
+.groupWrapper{
+  overflow: auto;
 }
 </style>

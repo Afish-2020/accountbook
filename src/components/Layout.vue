@@ -1,10 +1,10 @@
 <template>
   <div class="layout-wrapper">
-    <div class="content" :class="classPrefix && `${classPrefix}-content`">
+    <main class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot></slot>
-    </div>
-    <div class="navbar"><Nav/></div>
-    <div class="blank"></div>
+    </main>
+    <Nav/>
+<!--    <div class="blank"></div>-->
   </div>
 </template>
 
@@ -15,21 +15,28 @@ export default {
 }
 </script>
 
-<style scoped>
-.layout-wrapper{
+<style scoped lang="scss">
+.layout-wrapper {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  min-height: 100vh; /* 设置等于屏幕高度 */
+  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;  /* 设置等于屏幕高度 */
+  max-width: 500px;
+  .content {
+    border: 1px solid red;
+    flex-grow: 1; /*尽量把所有的高度都给content*/
+    /*height: 100%;*/
+    /*overflow: auto;*/
+    max-height: 100vh;
+    overflow: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }
-.content {
-  overflow: auto;  /*可滚动*/
-  flex-grow: 1; /*尽量把所有的高度都给content*/
-}
-.navbar{
-  width: 100%;
-  position:fixed;bottom:0px;
-  z-index: 1010;
-}
+
 .blank{
   height: 54px;
 }
