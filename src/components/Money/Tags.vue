@@ -4,7 +4,11 @@
 <!--      <button @click="createTag">新增标签</button>-->
 <!--    </div>-->
     <ul class="current">
-      <li v-for="tag in tagList" :key="tag.id" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)"><div class="icon"><Icon :name="tag.name"/></div><span class="text">{{tag.name}}</span></li>
+      <li v-for="tag in tagList" :key="tag.id" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)">
+        <div v-if="tagsName.indexOf(tag.name)>=0" class="icon"><Icon :name="tag.name"/></div>
+        <div v-else class="icon"><Icon name="start"/></div>
+        <span class="text">{{tag.name}}</span>
+      </li>
       <li @click="createTag"><div class="icon" ><Icon name="add"/></div><span class="text">添加</span></li>
     </ul>
   </div>
@@ -19,6 +23,7 @@ import TagHelper from '@/mixins/TagHelper';
 
 @Component
 export default class Tags extends mixins(TagHelper){
+  tagsName:string[]=['餐饮','服饰','购物','日用','交通','蔬菜','水果','住房','旅行']
   get tagList(){
     return this.$store.state.tagList
   };
@@ -60,6 +65,7 @@ export default class Tags extends mixins(TagHelper){
       line-height: $h;
       width: 20%;
       margin-top: 4px;
+      border: 1px solid white;
       >.icon{
         height: 40px;
         width: 40px;

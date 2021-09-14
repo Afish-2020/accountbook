@@ -77,5 +77,6 @@ export default class Money extends Vue {
 .tags{
   display: flex;
   flex-direction:row-reverse;
+  overflow: auto;
 }
 </style>

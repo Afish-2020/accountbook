@@ -3,22 +3,13 @@
     <Tabs class-prefix='type' :value.sync="type" :data-source="recordTypeList"/>
     <Tabs class-prefix='interval' :value.sync="interval" :data-source="intervalList"/>
     <div class="groupWrapper" >
-    <div class="chart-wrapper" ref="chartWrapper">
-      <Chart class="chart" :options="chartOptions"/>
-    </div>
-      <ol v-if="recordList.length>0">
-        <li v-for="(group,index) in groupList" :key="index">
-          <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
-          <ol>
-            <li class="record" v-for="item in group.items" :key="item.id">
-              <span>{{tagString(item.tag)}}</span>
-              <span class="notes">{{ item.notes }}</span>
-              <span>￥{{ item.amount }}</span>
-            </li>
-          </ol>
-        </li>
-      </ol>
-    <div v-else class="noResult">目前没有相关记录</div>
+    <ol class="chart-wrapper" ref="chartWrapper">
+      <li class="chartTitle">消费比例</li>
+      <li><Chart class="chart" :options="chartOptions"/></li>
+      <li class="chartTitle">支出统计</li>
+      <li><Chart class="chart line" :options="lineOptions"/></li>
+    </ol>
+<!--      <div v-else class="noResult">目前没有相关记录</div>-->
     </div>
   </Layout>
 </template>
@@ -128,55 +119,56 @@ export default class Statistics extends Vue {
       return array;
   };
 
-  // get chartOptions() {
-  //   // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
-  //   //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
-  //   const keys = this.keyValueList.map(r => r.key);
-  //   const values = this.keyValueList.map(r => r.value);
-  //   return {
-  //     xAxis: {
-  //       type: 'category',
-  //       data: keys,
-  //       axisTick: {
-  //         alignWithLabel: true
-  //       },
-  //       axisLine: {
-  //         lineStyle: {color: '#01C2C7'}
-  //       },
-  //       axisLabel: {
-  //         formatter: function (value:string) {
-  //           const date = new Date(value);
-  //           if(value.length===10) {
-  //             const texts = [(date.getMonth() + 1), date.getDate()];
-  //             return texts.join('.');
-  //           }else{
-  //             return  (date.getMonth() + 1) + '月';
-  //           }
-  //         },
-  //       }
-  //     },
-  //     yAxis: {
-  //       type: 'value',
-  //       show: false
-  //     },
-  //     series: [{
-  //       symbol: 'emptyCircle',
-  //       symbolSize: 8,
-  //       itemStyle: {borderWidth: 0.5, color:'#01C2C7',borderColor: 'black'},
-  //       data: values,
-  //       type: 'line'
-  //     }],
-  //     grid: {
-  //       left: 0,
-  //       right: 0
-  //     },
-  //     tooltip: {
-  //       show: true, triggerOn: 'click',
-  //       formatter: '{c}',
-  //       position: 'top'
-  //     }
-  //   };
-  // };
+  get lineOptions() {
+    // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
+    //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
+    const keys = this.keyValueList.map(r => r.key);
+    const values = this.keyValueList.map(r => r.value);
+    return {
+      xAxis: {
+        type: 'category',
+        data: keys,
+        axisTick: {
+          alignWithLabel: true
+        },
+        axisLine: {
+          lineStyle: {color: '#01C2C7'}
+        },
+        axisLabel: {
+          formatter: function (value:string) {
+            const date = new Date(value);
+            if(value.length===10) {
+              const texts = [(date.getMonth() + 1), date.getDate()];
+              return texts.join('.');
+            }else{
+              return  (date.getMonth() + 1) + '月';
+            }
+          },
+        }
+      },
+      yAxis: {
+        type: 'value',
+        show: false
+      },
+      series: [{
+        symbol: 'emptyCircle',
+        symbolSize: 6,
+        itemStyle: {borderWidth: 0.5, color:'#01C2C7',borderColor: 'black'},
+        data: values,
+        type: 'line'
+      }],
+      grid: {
+        // top:0,
+        left: 5,
+        right: 5
+      },
+      tooltip: {
+        show: true, triggerOn: 'click',
+        formatter: '{c}',
+        position: 'top'
+      }
+    };
+  };
 
   get chartOptions() {
     // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
@@ -190,6 +182,7 @@ export default class Statistics extends Vue {
           orient:'vertical',
           x:'left',
           // left: 'center'
+          icon: "circle",
         },
       color:['#01C2C7','#A47CFF','#FE782F','#87C66B','#BCDE53','#FFAD49','#F0E68C','#FFA07A','#BC8F8F','#D3D3D3'],
         series: [
@@ -269,7 +262,7 @@ return '上月'
 .chart {
   width: 100%;
   margin: auto;
-
+background: white;
   &-wrapper {
     overflow-x: auto;
     margin: auto;
@@ -327,5 +320,8 @@ return '上月'
 }
 .groupWrapper{
   overflow: auto;
+}
+.chartTitle{
+  padding: 8px;
 }
 </style>
