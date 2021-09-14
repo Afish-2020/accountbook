@@ -62,8 +62,6 @@ export default class Money extends Vue {
 .notes {
   padding: 5px 0;
   background-color: white;
-  //border: 1px solid ;
-  //box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   box-shadow: inset 0 -3px 3px -3px  rgba(0, 0, 0, 0.25),
   inset 0 3px 3px -3px  rgba(0, 0, 0, 0.25);
 }

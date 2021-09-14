@@ -29,7 +29,6 @@ import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
 import Chart from '@/components/Chart.vue';
-import _ from 'lodash';
 
 @Component({
   components: {Chart, Tabs}
@@ -73,23 +72,6 @@ export default class Statistics extends Vue {
     // console.log(this.recordList[0].amount);
     return result;
   }
-  get x() {
-    const recordTypeList = this.recordList.filter(r=>r.type===this.type)
-    let array = [];
-    let tags=[]
-    for (let i = 0; i < recordTypeList.length; i++) {
-      const tagName = recordTypeList[i].tag[0].name;
-      if(tags && tags.indexOf(tagName)>=0){
-        continue;
-      }
-      let sum = 0;
-      const found = recordTypeList.filter(r => r.tag[0].name === tagName);
-      found.forEach(r => {sum += r.amount;})
-      tags.push(tagName)
-      array.push({value:sum,name:tagName})
-    }
-    return array
-  }
 
   get groupList() {
     if(this.interval==='day'){
@@ -97,121 +79,6 @@ export default class Statistics extends Vue {
     }else{
       return this.getResult('mouth','YYYY-MM');
     }
-  };
-
-  get keyValueList() {
-    let array = [];
-    const today = new Date();
-    for (let i = 0; i <= 29; i++) {
-      if(this.interval==='day'){
-        const dayString = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
-        const found = _.find(this.groupList, {title: dayString});
-        array.push({key: dayString, value: found ? found.total : 0});
-      }else{
-        const dayString = dayjs(today).subtract(i, 'month').format('YYYY-MM');
-        const found = _.find(this.groupList, {title: dayString});
-        array.push({key: dayString, value: found ? found.total : 0});
-      }
-    }
-    array.sort((a, b) => {
-      if (a.key > b.key) {
-        return 1;
-      } else if (a.key === b.key) {
-        return 0;
-      } else {
-        return -1;
-      }
-    });
-    return array;
-  };
-
-  // get chartOptions() {
-  //   // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
-  //   //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
-  //   const keys = this.keyValueList.map(r => r.key);
-  //   const values = this.keyValueList.map(r => r.value);
-  //   return {
-  //     xAxis: {
-  //       type: 'category',
-  //       data: keys,
-  //       axisTick: {
-  //         alignWithLabel: true
-  //       },
-  //       axisLine: {
-  //         lineStyle: {color: '#01C2C7'}
-  //       },
-  //       axisLabel: {
-  //         formatter: function (value:string) {
-  //           const date = new Date(value);
-  //           if(value.length===10) {
-  //             const texts = [(date.getMonth() + 1), date.getDate()];
-  //             return texts.join('.');
-  //           }else{
-  //             return  (date.getMonth() + 1) + '月';
-  //           }
-  //         },
-  //       }
-  //     },
-  //     yAxis: {
-  //       type: 'value',
-  //       show: false
-  //     },
-  //     series: [{
-  //       symbol: 'emptyCircle',
-  //       symbolSize: 8,
-  //       itemStyle: {borderWidth: 0.5, color:'#01C2C7',borderColor: 'black'},
-  //       data: values,
-  //       type: 'line'
-  //     }],
-  //     grid: {
-  //       left: 0,
-  //       right: 0
-  //     },
-  //     tooltip: {
-  //       show: true, triggerOn: 'click',
-  //       formatter: '{c}',
-  //       position: 'top'
-  //     }
-  //   };
-  // };
-
-  get chartOptions() {
-    // console.log(this.recordList.map(r=>({createdAt:r.createdAt,amount:r.amount})));
-    //  console.log(this.recordList.map(r=>_.pick(r,['createdAt','amount'])));
-    return {
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        top: '5%',
-        orient:'vertical',
-        x:'left',
-        // left: 'center'
-      },
-      color:['#01C2C7','#A47CFF','#FE782F','#87C66B','#BCDE53','#FFAD49','#F0E68C','#FFA07A','#BC8F8F','#D3D3D3'],
-      series: [
-        {
-          name: '访问来源',
-          type: 'pie',
-          radius: ['40%', '70%'],
-          avoidLabelOverlap: false,
-          label: {
-            show: false,
-            position: 'center'
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '40',
-              fontWeight: 'bold'
-            }
-          },
-          labelLine: {
-            show: false
-          },
-          data: this.x
-        }
-      ]    }
   };
 
   tagString(tags: Tag[]) {

@@ -1,8 +1,5 @@
 <template>
   <div class="tags">
-<!--    <div class="new">-->
-<!--      <button @click="createTag">新增标签</button>-->
-<!--    </div>-->
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id" :class="{selected:selectedTags.indexOf(tag)>=0}" @click="toggle(tag)">
         <div v-if="tagsName.indexOf(tag.name)>=0" class="icon"><Icon :name="tag.name"/></div>

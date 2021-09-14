@@ -4,7 +4,6 @@
       <slot></slot>
     </main>
     <Nav/>
-<!--    <div class="blank"></div>-->
   </div>
 </template>
 
@@ -17,8 +16,6 @@ export default {
 
 <style scoped lang="scss">
 .layout-wrapper {
-  /*display: flex;*/
-  /*flex-direction: column;*/
   min-height: 100vh; /* 设置等于屏幕高度 */
   flex: 1;
   display: flex;
@@ -26,8 +23,6 @@ export default {
   max-width: 500px;
   .content {
     flex-grow: 1; /*尽量把所有的高度都给content*/
-    /*height: 100%;*/
-    /*overflow: auto;*/
     max-height: 100vh;
     overflow: auto;
     flex: 1;

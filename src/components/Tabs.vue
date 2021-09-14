@@ -44,9 +44,9 @@ export default class Tabs extends Vue {
       content: '';
       position: absolute;
       bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
       background: #666;
     }
   }

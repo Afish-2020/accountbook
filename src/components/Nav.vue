@@ -24,24 +24,12 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 nav {
-  //width: 100%;
-  //background: white;
-  //display: flex;
-  //box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
-  //flex-direction: row;
-  //font-size: 12px;
   display: flex;
   box-shadow: 0 0 3px rgb(0 0 0 / 20%);
   flex-direction: row;
   font-size: 12px;
   justify-content: space-between;
   > .item {
-    //padding: 2px 0;
-    //width: 33.33333%;
-    //display: flex;
-    //justify-content: space-between;
-    //align-items: center;
-    //flex-direction: column;
     padding: 8px 0;
     width: 33.33333%;
     display: flex;

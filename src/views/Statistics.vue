@@ -9,7 +9,6 @@
       <li class="chartTitle">支出统计</li>
       <li><Chart class="chart line" :options="lineOptions"/></li>
     </ol>
-<!--      <div v-else class="noResult">目前没有相关记录</div>-->
     </div>
   </Layout>
 </template>
@@ -67,7 +66,7 @@ export default class Statistics extends Vue {
     // console.log(this.recordList[0].amount);
     return result;
   }
- get x() {
+ get nameValueList() {
     const recordTypeList = this.recordList.filter(r=>r.type===this.type)
    let array = [];
    let tags=[]
@@ -152,15 +151,15 @@ export default class Statistics extends Vue {
       },
       series: [{
         symbol: 'emptyCircle',
-        symbolSize: 6,
+        symbolSize: 4,
         itemStyle: {borderWidth: 0.5, color:'#01C2C7',borderColor: 'black'},
         data: values,
         type: 'line'
       }],
       grid: {
         // top:0,
-        left: 5,
-        right: 5
+        left: 10,
+        right: 10
       },
       tooltip: {
         show: true, triggerOn: 'click',
@@ -205,46 +204,10 @@ export default class Statistics extends Vue {
             labelLine: {
               show: false
             },
-            data: this.x
+            data: this.nameValueList
           }
         ]    }
   };
-
-  tagString(tags: Tag[]) {
-    // return tags.length === 0 ? '无' : tags.map(i => i.name).join('，');
-    if(tags){
-      return tags![0].name;
-    }
-  }
-
-
-  beautify(string: string) {
-    const day = dayjs(string);
-    const now = dayjs();
-    if(this.interval==='day'){
-      if (day.isSame(now, 'day')) {
-        return '今天';
-      } else if (day.isSame(now.subtract(1, 'day'), 'day')) {
-        return '昨天';
-      } else if (day.isSame(now.subtract(2, 'day'), 'day')) {
-        return '前天';
-      } else if (day.isSame(now, 'year')) {
-        return day.format('M月D日');
-      } else {
-        return day.format('YYYY年M月D日');
-      }
-    }else{
-      if (day.isSame(now, 'month')) {
-        return '本月';
-      }else if (day.isSame(now.subtract(1, 'month'), 'month')){
-return '上月'
-      }else if (day.isSame(now, 'year')) {
-        return day.format('M月');
-      }else {
-        return day.format('YYYY年M月');
-      }
-    }
-  }
 
   beforeCreate() {
     this.$store.commit('fetchRecords');
@@ -260,7 +223,7 @@ return '上月'
 
 <style lang="scss" scoped>
 .chart {
-  width: 100%;
+  width: 95%;
   margin: auto;
 background: white;
   &-wrapper {
