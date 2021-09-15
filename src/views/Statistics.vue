@@ -5,7 +5,8 @@
     <div class="groupWrapper" >
     <ol class="chart-wrapper" ref="chartWrapper">
       <li class="chartTitle">消费比例</li>
-      <li><Chart class="chart" :options="chartOptions"/></li>
+      <li v-if="nameValueList.length!==0" ><Chart class="chart" :options="chartOptions"/></li>
+      <li v-else><div class="noData">目前暂无数据</div></li>
       <li class="chartTitle">支出统计</li>
       <li><Chart class="chart line" :options="lineOptions"/></li>
     </ol>
@@ -186,7 +187,7 @@ export default class Statistics extends Vue {
       color:['#01C2C7','#A47CFF','#FE782F','#87C66B','#BCDE53','#FFAD49','#F0E68C','#FFA07A','#BC8F8F','#D3D3D3'],
         series: [
           {
-            name: '访问来源',
+            name: '消费比例',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
@@ -222,6 +223,16 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.noData{
+  width: 95%;
+  margin: auto;
+  background: white;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+align-items: center;
+  color: gray;
+}
 .chart {
   width: 95%;
   margin: auto;
@@ -234,11 +245,6 @@ background: white;
       display: none;
     }
   }
-}
-
-.noResult {
-  padding: 16px;
-  text-align: center;
 }
 
 ::v-deep .type-tabs-item {

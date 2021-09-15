@@ -8,7 +8,13 @@
           <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
           <ol>
             <li class="record" v-for="item in group.items" :key="item.id">
-             <div class="iconWrapper"><Icon :name="tagString(item.tag)"/></div><span>{{tagString(item.tag)}}</span>
+             <div  class="iconWrapper">
+               <Icon v-if="tagsName.indexOf(tagString(item.tag))>=0" :name="tagString(item.tag)"/>
+               <Icon v-else name="start"/>
+             </div>
+              <!--              <div v-if="tagsName.indexOf(tag.name)>=0" class="icon"><Icon :name="tag.name"/></div>-->
+<!--              <div v-else class="icon"><Icon name="start"/></div>-->
+              <span>{{tagString(item.tag)}}</span>
               <span class="notes">{{ item.notes }}</span>
               <span>￥{{ item.amount }}</span>
             </li>
@@ -34,13 +40,9 @@ import Chart from '@/components/Chart.vue';
   components: {Chart, Tabs}
 })
 export default class Statistics extends Vue {
+  tagsName:string[]=['餐饮','服饰','购物','日用','交通','蔬菜','水果','住房','旅行']
   get recordList() {
     return (this.$store.state as RootState).recordList;
-  }
-
-  mounted() {
-    const div = (this.$refs.chartWrapper as HTMLDivElement);
-    div.scrollLeft = div.scrollWidth;
   }
 
   getResult(pattern:string,unit:string){

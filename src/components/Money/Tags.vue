@@ -57,6 +57,8 @@ export default class Tags extends mixins(TagHelper){
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      flex-direction: column;
+      align-items:center;
       $bg: #D9D9D9;
       $h: 40px;
       line-height: $h;
